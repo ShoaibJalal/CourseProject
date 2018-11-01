@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import Listitem from "./src/components/Listitem/Listitem";
 
 export default class App extends React.Component {
   state = {
@@ -25,7 +26,7 @@ export default class App extends React.Component {
   };
   render() {
     const projectsOutput = this.state.projects.map((project, i) => (
-      <Text key={i}>{project}</Text>
+      <Listitem key={i} projectName={project} />
     ));
     return (
       <View style={styles.container}>
@@ -43,7 +44,7 @@ export default class App extends React.Component {
             onPress={this.projectSubmitHandler}
           />
         </View>
-        <View>{projectsOutput}</View>
+        <View style={styles.listContainer}>{projectsOutput}</View>
       </View>
     );
   }
@@ -52,7 +53,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 28,
+    padding: 26,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start"
@@ -63,10 +64,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center"
   },
+  projectInput: {
+    width: "70%"
+  },
   projectButton: {
     width: "30%"
   },
-  projectInput: {
-    width: "70%"
+
+  listContainer: {
+    width: "100%"
   }
 });

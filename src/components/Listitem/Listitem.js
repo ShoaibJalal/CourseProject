@@ -1,18 +1,28 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 const listItem = props => (
-  <View style={styles.listItem}>
-    <Text>{props.projectName}</Text>
-  </View>
+  <TouchableOpacity onPress={props.onItemPressed}>
+    <View style={styles.listItem}>
+      <Image source={props.projectImage} style={styles.projectImage} />
+      <Text>{props.projectName}</Text>
+    </View>
+  </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
   listItem: {
     width: "100%",
-    marginBottom: 5,
+    margin: 5,
     padding: 10,
-    backgroundColor: "#eee"
+    backgroundColor: "#eee",
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  projectImage: {
+    margin: 10,
+    height: 30,
+    width: 30
   }
 });
 export default listItem;

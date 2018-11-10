@@ -1,13 +1,7 @@
-import {
-  ADD_PROJECT,
-  DELETE_PROJECT,
-  DESELECT_PROJECT,
-  SELECT_PROJECT
-} from "../actions/actionTypes";
+import { ADD_PROJECT, DELETE_PROJECT } from "../actions/actionTypes";
 import projectImage from "../../../assets/project.jpg";
 const initialState = {
-  projects: [],
-  selectedProject: null
+  projects: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -26,21 +20,9 @@ const reducer = (state = initialState, action) => {
         ...state,
         projects: state.projects.filter(project => {
           return project.key !== state.selectedProject.key;
-        }),
-        selectedProject: null
-      };
-    case SELECT_PROJECT:
-      return {
-        ...state,
-        selectedProject: state.projects.find(project => {
-          return project.key === action.projectKey;
         })
       };
-    case DESELECT_PROJECT:
-      return {
-        ...state,
-        selectedProject: null
-      };
+
     default:
       return state;
   }

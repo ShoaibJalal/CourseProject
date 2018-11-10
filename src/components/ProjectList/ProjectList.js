@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import Listitem from "../Listitem/Listitem";
 
@@ -11,7 +11,7 @@ const projectList = props => {
         <Listitem
           projectName={info.item.name}
           projectImage={info.item.image}
-          onItemPressed={() => props.onItemSelected(info.item.key)}
+          onItemPressed={props.onItemSelected}
         />
       )}
     />

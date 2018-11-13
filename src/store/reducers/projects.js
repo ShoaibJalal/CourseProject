@@ -19,7 +19,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         projects: state.projects.filter(project => {
-          return project.key !== state.selectedProject.key;
+          return project.key !== action.projectKey;
         })
       };
 

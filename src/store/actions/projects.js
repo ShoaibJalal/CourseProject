@@ -7,8 +7,9 @@ export const addProject = projectName => {
   };
 };
 
-export const deleteProject = () => {
+export const deleteProject = key => {
   return {
-    type: DELETE_PROJECT
+    type: DELETE_PROJECT,
+    projectKey: key
   };
 };

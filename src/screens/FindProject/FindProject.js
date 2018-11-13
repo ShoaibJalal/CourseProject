@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import ProjectList from "../../components/ProjectList/ProjectList";
 class FindProjectScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: "Share Project",
+    headerTitle: "Add Project",
     headerRight: (
       <Button
         title="Add"
@@ -15,6 +15,7 @@ class FindProjectScreen extends Component {
   });
   itemSelectedHandler = project => {
     this.props.navigation.push("ProjectDetail", project);
+    console.log(project);
   };
   render() {
     return (

@@ -7,11 +7,19 @@ import {
   StyleSheet,
   TouchableOpacity
 } from "react-native";
+import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
+import { deleteProject } from "../../store/actions/index";
+
 class ProjectDetailScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: navigation.getParam("projectName")
   });
+
+  projectDeletedHandler = () => {
+    this.props.onDeleteProject(this.props.navigation.getParam("projectKey"));
+    this.props.navigation.pop();
+  };
   render() {
     const { params } = this.props.navigation.state;
     console.log(params);
@@ -30,7 +38,7 @@ class ProjectDetailScreen extends React.Component {
           </View>
         </View>
         <View>
-          <TouchableOpacity onPress={this.props.onItemDeleted}>
+          <TouchableOpacity onPress={this.projectDeletedHandler}>
             <View style={styles.deleteButton}>
               <Ionicons name="md-trash" size={30} color="red" />
             </View>
@@ -58,5 +66,13 @@ const styles = StyleSheet.create({
     alignItems: "center"
   }
 });
+const mapDispatchToProps = dispatch => {
+  return {
+    onDeleteProject: key => dispatch(deleteProject(key))
+  };
+};
 
-export default ProjectDetailScreen;
+export default connect(
+  null,
+  mapDispatchToProps
+)(ProjectDetailScreen);

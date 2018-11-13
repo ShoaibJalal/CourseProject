@@ -7,8 +7,10 @@ const projectList = props => {
     <FlatList
       style={styles.listContainer}
       data={props.projects}
+      keyExtractor={(item, index) => index.toString()}
       renderItem={info => (
         <Listitem
+          projectKey={info.item.key}
           projectName={info.item.name}
           projectImage={info.item.image}
           onItemPressed={props.onItemSelected}

@@ -17,7 +17,7 @@ class AuthScreen extends Component {
             <TextHeading>Login In</TextHeading>
           </MainText>
 
-          <Button title="Switch to Log In" />
+          <Button title="Switch to Log In" onPress={() => alert("Switched")} />
           <View style={styles.inputContainer}>
             <DefaultInput
               placeholder="Enter E-mail Address"

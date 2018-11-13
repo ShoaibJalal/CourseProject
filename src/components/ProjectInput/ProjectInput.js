@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, TextInput, Button, StyleSheet } from "react-native";
+import DefaultInput from "../UI/DefaultInput/DefaultInput";
 
 class ProjectInput extends Component {
   state = {
@@ -12,46 +12,15 @@ class ProjectInput extends Component {
     });
   };
 
-  // Will let us add project to state
-  projectSubmitHandler = () => {
-    if (this.state.projectName.trim === "") {
-      return;
-    }
-    this.props.onProjectAdded(this.state.projectName);
-  };
-
   render() {
     return (
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.projectInput}
-          placeholder="Enter Project"
-          value={this.state.projectName}
-          onChangeText={this.projectNameChangedHandler}
-        />
-
-        <Button
-          title="Add"
-          style={styles.projectButton}
-          onPress={this.projectSubmitHandler}
-        />
-      </View>
+      <DefaultInput
+        placeholder="Project Name"
+        value={this.state.projectName}
+        onChange={this.projectNameChangedHandler}
+      />
     );
   }
 }
 
-const styles = StyleSheet.create({
-  inputContainer: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  projectInput: {
-    width: "70%"
-  },
-  projectButton: {
-    width: "30%"
-  }
-});
 export default ProjectInput;

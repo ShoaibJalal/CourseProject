@@ -3,7 +3,7 @@ import {
   View,
   Image,
   Text,
-  Button,
+  Platform,
   StyleSheet,
   TouchableOpacity
 } from "react-native";
@@ -40,7 +40,11 @@ class ProjectDetailScreen extends React.Component {
         <View>
           <TouchableOpacity onPress={this.projectDeletedHandler}>
             <View style={styles.deleteButton}>
-              <Ionicons name="md-trash" size={30} color="red" />
+              <Ionicons
+                name={Platform.OS === "android" ? "md-trash" : "ios-trash"}
+                size={30}
+                color="red"
+              />
             </View>
           </TouchableOpacity>
         </View>

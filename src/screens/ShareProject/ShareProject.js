@@ -10,13 +10,24 @@ import PickImage from "../../components/PickImage/PickImage";
 import PickLocation from "../../components/PickLocation/PickLocation";
 
 class ShareProjectScreen extends Component {
+  state = {
+    projectName: ""
+  };
   static navigationOptions = {
     title: "Share Project"
   };
 
-  projectAddedHandler = projectName => {
-    this.props.onAddProject(projectName);
+  projectAddedHandler = () => {
+    if (this.state.projectName.trim() !== "") {
+      this.props.onAddProject(this.state.projectName);
+    }
   };
+  projectNameChangedHandler = event => {
+    this.setState({
+      projectName: event
+    });
+  };
+
   render() {
     return (
       <ScrollView>
@@ -27,11 +38,14 @@ class ShareProjectScreen extends Component {
           <PickImage />
 
           <PickLocation />
-          <ProjectInput />
+          <ProjectInput
+            projectName={this.state.projectName}
+            onChangeText={this.projectNameChangedHandler}
+          />
           <View style={styles.button}>
             <Button
               title="Share the Project"
-              onPress={() => alert("Pressed")}
+              onPress={this.projectAddedHandler}
             />
           </View>
         </View>

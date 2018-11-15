@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Platform } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 
@@ -7,7 +7,11 @@ export default class SettingsScreen extends React.Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => (
       <Ionicons
-        name={`ios-options${focused ? "" : "-outline"}`}
+        name={
+          Platform.OS === "android"
+            ? `md-options`
+            : `ios-options${focused ? "" : "-outline"}`
+        }
         size={25}
         color={tintColor}
       />

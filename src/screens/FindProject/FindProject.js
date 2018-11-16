@@ -12,7 +12,8 @@ import ProjectList from "../../components/ProjectList/ProjectList";
 class FindProjectScreen extends Component {
   state = {
     projectsLoaded: false,
-    removeAnim: new Animated.Value(1)
+    removeAnim: new Animated.Value(1),
+    projectsAnim: new Animated.Value(0)
   };
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "Add Project",
@@ -30,12 +31,25 @@ class FindProjectScreen extends Component {
     console.log(project);
   };
 
+  projectsLoadedHandler = () => {
+    Animated.timing(this.state.projectsAnim, {
+      toValue: 1,
+      duration: 600,
+      useNativeDriver: true
+    }).start();
+  };
+
   projectsSearchHandler = () => {
     Animated.timing(this.state.removeAnim, {
       toValue: 0,
       duration: 600,
       useNativeDriver: true
-    }).start();
+    }).start(() => {
+      this.setState({
+        projectsLoaded: true
+      });
+      this.projectsLoadedHandler();
+    });
   };
   render() {
     let content = (
@@ -61,18 +75,28 @@ class FindProjectScreen extends Component {
     );
     if (this.state.projectsLoaded) {
       content = (
-        <ProjectList
-          projects={this.props.projects}
-          onItemSelected={this.itemSelectedHandler}
-        />
+        <Animated.View
+          style={{
+            opacity: this.state.projectsAnim
+          }}
+        >
+          <ProjectList
+            projects={this.props.projects}
+            onItemSelected={this.itemSelectedHandler}
+          />
+        </Animated.View>
       );
     }
-    return <View style={styles.container}>{content}</View>;
+    return (
+      <View style={this.state.projectsLoaded ? null : styles.buttonContainer}>
+        {content}
+      </View>
+    );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  buttonContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center"

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Button, StyleSheet, Dimensions } from "react-native";
-import { MapView } from "expo";
+import { MapView, Location, Permissions } from "expo";
 
 class PickLocation extends Component {
   state = {
@@ -16,7 +16,11 @@ class PickLocation extends Component {
   };
   pickLocationHandler = e => {
     let coords = e.nativeEvent.coordinate;
-
+    this.map.animateToRegion({
+      ...this.state.focusedLocation,
+      latitude: coords.latitude,
+      longitude: coords.longitude
+    });
     this.setState(prevState => {
       return {
         focusedLocation: {
@@ -28,6 +32,32 @@ class PickLocation extends Component {
       };
     });
   };
+
+  getLocationHandler = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== "granted") {
+      alert("No permission to access location");
+    } else {
+      let location = await Location.getCurrentPositionAsync({});
+
+      this.setState(prevState => {
+        return {
+          focusedLocation: {
+            ...prevState.focusedLocation,
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude
+          },
+          locationChosen: true
+        };
+      });
+      this.map.animateToRegion({
+        ...this.state.focusedLocation,
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude
+      });
+    }
+  };
+
   render() {
     let marker = null;
     if (this.state.locationChosen) {
@@ -37,16 +67,16 @@ class PickLocation extends Component {
       <View style={styles.container}>
         <MapView
           initialRegion={this.state.focusedLocation}
-          region={this.state.focusedLocation}
           style={styles.map}
           onPress={this.pickLocationHandler}
+          ref={ref => (this.map = ref)}
         >
           {marker}
         </MapView>
         <View style={styles.button}>
           <Button
             title="Use current location"
-            onPress={() => alert("Pick Location!")}
+            onPress={this.getLocationHandler}
           />
         </View>
       </View>

@@ -26,6 +26,14 @@ class ShareProjectScreen extends Component {
         validationRules: {
           notEmpty: true
         }
+      },
+      location: {
+        value: null,
+        valid: false
+      },
+      image: {
+        value: null,
+        valid: false
       }
     }
   };
@@ -34,8 +42,12 @@ class ShareProjectScreen extends Component {
   };
 
   projectAddedHandler = () => {
-    if (this.state.controls.projectName.value.trim() !== "") {
-      this.props.onAddProject(this.state.controls.projectName.value);
+    {
+      this.props.onAddProject(
+        this.state.controls.projectName.value,
+        this.state.controls.location.value,
+        this.state.controls.image.value
+      );
     }
   };
   projectNameChangedHandler = event => {
@@ -56,6 +68,33 @@ class ShareProjectScreen extends Component {
       };
     });
   };
+  ImagePickedHandler = image => {
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          image: {
+            value: image,
+            valid: true
+          }
+        }
+      };
+    });
+  };
+
+  locationPickedHandler = location => {
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          location: {
+            value: location,
+            valid: true
+          }
+        }
+      };
+    });
+  };
 
   render() {
     return (
@@ -64,9 +103,9 @@ class ShareProjectScreen extends Component {
           <MainText>
             <TextHeading>Share a project</TextHeading>
           </MainText>
-          <PickImage />
+          <PickImage onImagePicked={this.ImagePickedHandler} />
 
-          <PickLocation />
+          <PickLocation onLocationPick={this.locationPickedHandler} />
           <ProjectInput
             projectData={this.state.controls.projectName}
             onChangeText={this.projectNameChangedHandler}
@@ -75,7 +114,11 @@ class ShareProjectScreen extends Component {
             <Button
               title="Share the Project"
               onPress={this.projectAddedHandler}
-              disabled={!this.state.controls.projectName.valid}
+              disabled={
+                !this.state.controls.projectName.valid ||
+                !this.state.controls.location.valid ||
+                !this.state.controls.image.valid
+              }
             />
           </View>
         </KeyboardAvoidingView>
@@ -96,7 +139,8 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddProject: projectName => dispatch(addProject(projectName))
+    onAddProject: (projectName, location, image) =>
+      dispatch(addProject(projectName, location, image))
   };
 };
 

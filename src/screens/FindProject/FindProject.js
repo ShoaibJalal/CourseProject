@@ -27,8 +27,9 @@ class FindProjectScreen extends Component {
   });
 
   itemSelectedHandler = project => {
-    this.props.navigation.push("ProjectDetail", project);
     console.log(project);
+
+    this.props.navigation.push("ProjectDetail", project);
   };
 
   projectsLoadedHandler = () => {

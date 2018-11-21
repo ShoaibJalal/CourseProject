@@ -1,16 +1,35 @@
 import React, { Component } from "react";
 import { View, Image, Button, StyleSheet } from "react-native";
+import { ImagePicker } from "expo";
 
-import backgroundPlaceholder from "../../assets/backgroundHD.jpg";
 class PickImage extends Component {
+  state = {
+    pickedImage: null
+  };
+
+  pickImageHandler = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3]
+    });
+    console.log(result);
+    if (result.cancelled) {
+      console.log("User cancelled!");
+    } else if (!result.cancelled) {
+      this.setState({
+        pickedImage: { uri: result.uri }
+      });
+      this.props.onImagePicked({ uri: result.uri, base64: result.base64 });
+    }
+  };
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.placeholder}>
-          <Image source={backgroundPlaceholder} style={styles.previewImage} />
+          <Image source={this.state.pickedImage} style={styles.previewImage} />
         </View>
         <View style={styles.button}>
-          <Button title="Pick Image" onPress={() => alert("Image picker")} />
+          <Button title="Pick an Image" onPress={this.pickImageHandler} />
         </View>
       </View>
     );

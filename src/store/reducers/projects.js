@@ -1,5 +1,5 @@
 import { ADD_PROJECT, DELETE_PROJECT } from "../actions/actionTypes";
-import projectImage from "../../../assets/project.jpg";
+
 const initialState = {
   projects: []
 };
@@ -12,7 +12,10 @@ const reducer = (state = initialState, action) => {
         projects: state.projects.concat({
           key: Math.random(),
           name: action.projectName,
-          image: projectImage
+          image: {
+            uri: action.image.uri
+          },
+          location: action.location
         })
       };
     case DELETE_PROJECT:

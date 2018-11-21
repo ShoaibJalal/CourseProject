@@ -13,6 +13,7 @@ const projectList = props => {
           projectKey={info.item.key}
           projectName={info.item.name}
           projectImage={info.item.image}
+          location={info.item.location}
           onItemPressed={props.onItemSelected}
         />
       )}

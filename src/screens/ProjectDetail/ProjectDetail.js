@@ -5,11 +5,13 @@ import {
   Text,
   Platform,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from "react-native";
 import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import { deleteProject } from "../../store/actions/index";
+import { MapView } from "expo";
 
 class ProjectDetailScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -23,6 +25,10 @@ class ProjectDetailScreen extends React.Component {
   render() {
     const { params } = this.props.navigation.state;
     console.log(params);
+    let marker = null;
+    if (params.location) {
+      marker = <MapView.Marker coordinate={params.location} />;
+    }
     return (
       <View style={styles.container}>
         <View>
@@ -36,6 +42,21 @@ class ProjectDetailScreen extends React.Component {
               {this.props.navigation.getParam("projectName")}
             </Text>
           </View>
+        </View>
+        <View style={styles.subConatiner}>
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              ...params.location,
+              latitudeDelta: 0.0322,
+              longitudeDelta:
+                (Dimensions.get("window").width /
+                  Dimensions.get("window").height) *
+                0.0322
+            }}
+          >
+            {marker}
+          </MapView>
         </View>
         <View>
           <TouchableOpacity onPress={this.projectDeletedHandler}>
@@ -55,11 +76,18 @@ class ProjectDetailScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 30
+    margin: 30,
+    flex: 1
+  },
+  subConatiner: {
+    flex: 1
   },
   projectImage: {
     width: "100%",
     height: 200
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject
   },
   projectName: {
     fontWeight: "bold",
@@ -70,6 +98,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   }
 });
+
 const mapDispatchToProps = dispatch => {
   return {
     onDeleteProject: key => dispatch(deleteProject(key))

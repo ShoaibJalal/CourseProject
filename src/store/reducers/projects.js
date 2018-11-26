@@ -1,4 +1,4 @@
-import { ADD_PROJECT, DELETE_PROJECT } from "../actions/actionTypes";
+import { SET_PROJECTS, REMOVE_PROJECTS } from "../actions/actionTypes";
 
 const initialState = {
   projects: []
@@ -6,23 +6,17 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_PROJECT:
+    case SET_PROJECTS:
       return {
         ...state,
-        projects: state.projects.concat({
-          key: Math.random(),
-          name: action.projectName,
-          image: {
-            uri: action.image.uri
-          },
-          location: action.location
-        })
+        projects: action.projects
       };
-    case DELETE_PROJECT:
+
+    case REMOVE_PROJECTS:
       return {
         ...state,
         projects: state.projects.filter(project => {
-          return project.key !== action.projectKey;
+          return project.key !== action.key;
         })
       };
 

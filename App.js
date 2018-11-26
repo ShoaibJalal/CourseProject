@@ -5,23 +5,28 @@ import {
   createSwitchNavigator,
   createBottomTabNavigator
 } from "react-navigation";
-import { createStore, combineReducers, compose } from "redux";
-import { Ionicons } from "@expo/vector-icons";
+import { createStore, combineReducers, compose, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 import projectsReducer from "./src/store/reducers/projects";
 import ShareProjectScreen from "./src/screens/ShareProject/ShareProject";
 import AuthScreen from "./src/screens/Auth/Auth";
 import FindProjectScreen from "./src/screens/FindProject/FindProject";
 import SettingsScreen from "./src/screens/SettingsScreen/SettingsScreen";
 import ProjectDetailScreen from "./src/screens/ProjectDetail/ProjectDetail";
+import uiReducer from "./src/store/reducers/ui";
 
 const rootReducer = combineReducers({
-  projects: projectsReducer
+  projects: projectsReducer,
+  ui: uiReducer
 });
 let composeEnhancers = compose;
 if (__DEV__) {
   composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 }
-const store = createStore(rootReducer, composeEnhancers());
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 const ProjectStack = createStackNavigator({
   FindProject: FindProjectScreen,

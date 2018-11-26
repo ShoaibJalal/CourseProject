@@ -1,4 +1,7 @@
-export const ADD_PROJECT = "ADD_PROJECT";
-export const DELETE_PROJECT = "DELETE_PROJECT";
+export const SET_PROJECTS = "SET_PROJECTS";
+export const REMOVE_PROJECTS = "REMOVE_PROJECTS";
 
 export const TRY_AUTH = "TRY_AUTH";
+
+export const UI_START_LOADING = "UI_START_LOADING";
+export const UI_STOP_LOADING = "UI_STOP_LOADING";

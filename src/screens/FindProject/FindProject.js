@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import ProjectList from "../../components/ProjectList/ProjectList";
+import { getProjects } from "../../store/actions/index";
+
 class FindProjectScreen extends Component {
   state = {
     projectsLoaded: false,
@@ -25,6 +27,10 @@ class FindProjectScreen extends Component {
       />
     )
   });
+
+  componentDidMount() {
+    this.props.onLoadProjects();
+  }
 
   itemSelectedHandler = project => {
     console.log(project);
@@ -119,5 +125,13 @@ const mapStateToProps = state => {
     projects: state.projects.projects
   };
 };
+const mapDispatchToProps = dispatch => {
+  return {
+    onLoadProjects: () => dispatch(getProjects())
+  };
+};
 
-export default connect(mapStateToProps)(FindProjectScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FindProjectScreen);

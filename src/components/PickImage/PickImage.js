@@ -10,7 +10,8 @@ class PickImage extends Component {
   pickImageHandler = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      aspect: [4, 3]
+      aspect: [4, 3],
+      base64: true
     });
     console.log(result);
     if (result.cancelled) {

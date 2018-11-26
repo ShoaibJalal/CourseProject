@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import {
   View,
   Button,
+  Text,
   StyleSheet,
   ScrollView,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ActivityIndicator
 } from "react-native";
 
 import { connect } from "react-redux";
@@ -97,6 +99,20 @@ class ShareProjectScreen extends Component {
   };
 
   render() {
+    let submitButton = (
+      <Button
+        title="Share the Project"
+        onPress={this.projectAddedHandler}
+        disabled={
+          !this.state.controls.projectName.valid ||
+          !this.state.controls.location.valid ||
+          !this.state.controls.image.valid
+        }
+      />
+    );
+    if (this.props.isLoading) {
+      submitButton = <ActivityIndicator />;
+    }
     return (
       <ScrollView>
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -110,17 +126,7 @@ class ShareProjectScreen extends Component {
             projectData={this.state.controls.projectName}
             onChangeText={this.projectNameChangedHandler}
           />
-          <View style={styles.button}>
-            <Button
-              title="Share the Project"
-              onPress={this.projectAddedHandler}
-              disabled={
-                !this.state.controls.projectName.valid ||
-                !this.state.controls.location.valid ||
-                !this.state.controls.image.valid
-              }
-            />
-          </View>
+          <View style={styles.button}>{submitButton}</View>
         </KeyboardAvoidingView>
       </ScrollView>
     );
@@ -137,6 +143,12 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  return {
+    isLoading: state.ui.isLoading
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     onAddProject: (projectName, location, image) =>
@@ -145,6 +157,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ShareProjectScreen);

@@ -5,6 +5,8 @@ import {
   createSwitchNavigator,
   createBottomTabNavigator
 } from "react-navigation";
+import NavigationService from "./NavigationService";
+
 import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import projectsReducer from "./src/store/reducers/projects";
@@ -75,7 +77,11 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <AppNavigator />
+        <AppNavigator
+          ref={navigatorRef => {
+            NavigationService.setAppNavigator(navigatorRef);
+          }}
+        />
       </Provider>
     );
   }

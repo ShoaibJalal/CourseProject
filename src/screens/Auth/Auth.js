@@ -6,7 +6,8 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ActivityIndicator
 } from "react-native";
 import { connect } from "react-redux";
 import DefaultInput from "../../components/UI/DefaultInput/DefaultInput";
@@ -46,13 +47,12 @@ class AuthScreen extends Component {
     }
   };
 
-  loginHandler = () => {
+  authHandler = () => {
     const authData = {
       email: this.state.controls.email.value,
       password: this.state.controls.password.value
     };
-    this.props.onLogin(authData);
-    this.props.navigation.navigate("Main");
+    this.props.onTryAuth(authData, this.state.authMode);
   };
 
   switchAuthModeHandler = () => {
@@ -111,6 +111,18 @@ class AuthScreen extends Component {
 
   render() {
     let confirmPasswordControl = null;
+    let submitButton = (
+      <Button
+        title="Submit"
+        onPress={this.authHandler}
+        disabled={
+          !this.state.controls.email.valid ||
+          !this.state.controls.password.valid ||
+          (!this.state.controls.confirmPassword.valid &&
+            this.state.authMode === "signup")
+        }
+      />
+    );
     if (this.state.authMode === "signup") {
       confirmPasswordControl = (
         <DefaultInput
@@ -126,6 +138,10 @@ class AuthScreen extends Component {
         />
       );
     }
+    if (this.props.isLoading) {
+      submitButton = <ActivityIndicator />;
+    }
+
     return (
       <ImageBackground source={backgroundImage} style={styles.authBackground}>
         <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -168,16 +184,7 @@ class AuthScreen extends Component {
               {confirmPasswordControl}
             </View>
           </TouchableWithoutFeedback>
-          <Button
-            title="Submit"
-            onPress={this.loginHandler}
-            disabled={
-              !this.state.controls.email.valid ||
-              !this.state.controls.password.valid ||
-              (!this.state.controls.confirmPassword.valid &&
-                this.state.authMode === "signup")
-            }
-          />
+          {submitButton}
         </KeyboardAvoidingView>
       </ImageBackground>
     );
@@ -204,12 +211,18 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  return {
+    isLoading: state.ui.isLoading
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
-    onLogin: authData => dispatch(tryAuth(authData))
+    onTryAuth: (authData, authMode) => dispatch(tryAuth(authData, authMode))
   };
 };
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AuthScreen);

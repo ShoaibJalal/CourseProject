@@ -1,9 +1,11 @@
 import React from "react";
-import { View, StyleSheet, Text, Platform } from "react-native";
+import { View, Button, StyleSheet, Text, Platform } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
+import { connect } from "react-redux";
+import { authLogout } from "../../store/actions/index";
 
-export default class SettingsScreen extends React.Component {
+class SettingsScreen extends React.Component {
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) => (
       <Ionicons
@@ -24,7 +26,9 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Settings coming soon.</Text>
+        <Text style={styles.text}>Press Logout Button to Signout</Text>
+
+        <Button title="Logout" color="#841584" onPress={this.props.onLogout} />
       </View>
     );
   }
@@ -36,6 +40,18 @@ const styles = StyleSheet.create({
     flex: 1
   },
   text: {
-    textAlign: "center"
+    textAlign: "center",
+    fontWeight: "bold"
   }
 });
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogout: () => dispatch(authLogout())
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SettingsScreen);

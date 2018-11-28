@@ -1,5 +1,5 @@
 import { AsyncStorage } from "react-native";
-import { AUTH_SET_TOKEN } from "./actionTypes";
+import { AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN } from "./actionTypes";
 import { uiStartLoading, uiStopLoading } from "./index";
 import NavigationService from "../../.././NavigationService";
 
@@ -159,5 +159,21 @@ export const authClearStorage = () => {
   return dispatch => {
     AsyncStorage.removeItem("projects:auth:token");
     AsyncStorage.removeItem("projects:auth:expiryDate");
+    return AsyncStorage.removeItem("projects:auth:refreshToken");
+  };
+};
+
+export const authLogout = () => {
+  return dispatch => {
+    dispatch(authClearStorage()).then(() => {
+      NavigationService.navigate("Login");
+    });
+    dispatch(authRemoveToken());
+  };
+};
+
+export const authRemoveToken = () => {
+  return {
+    type: AUTH_REMOVE_TOKEN
   };
 };

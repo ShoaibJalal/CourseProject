@@ -16,10 +16,12 @@ import FindProjectScreen from "./src/screens/FindProject/FindProject";
 import SettingsScreen from "./src/screens/SettingsScreen/SettingsScreen";
 import ProjectDetailScreen from "./src/screens/ProjectDetail/ProjectDetail";
 import uiReducer from "./src/store/reducers/ui";
+import authReducer from "./src/store/reducers/auth";
 
 const rootReducer = combineReducers({
   projects: projectsReducer,
-  ui: uiReducer
+  ui: uiReducer,
+  auth: authReducer
 });
 let composeEnhancers = compose;
 if (__DEV__) {

@@ -1,16 +1,29 @@
 import { REMOVE_PROJECTS, SET_PROJECTS } from "./actionTypes";
-import { uiStartLoading, uiStopLoading } from "./index";
+import { uiStartLoading, uiStopLoading, authGetToken } from "./index";
 
 export const addProject = (projectName, location, image) => {
   return dispatch => {
+    let authToken;
     dispatch(uiStartLoading());
-
-    fetch("https://us-central1-projectsapp17.cloudfunctions.net/storeImage", {
-      method: "POST",
-      body: JSON.stringify({
-        image: image.base64
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid Token exists!");
       })
-    })
+      .then(token => {
+        authToken = token;
+        return fetch(
+          "https://us-central1-projectsapp17.cloudfunctions.net/storeImage",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              image: image.base64
+            }),
+            headers: {
+              Authorization: "Projects " + authToken
+            }
+          }
+        );
+      })
       .catch(err => {
         console.log(err);
         alert("Error occured!!! Try again...");
@@ -24,19 +37,23 @@ export const addProject = (projectName, location, image) => {
           image: parsedRes.imageUrl
         };
 
-        return fetch("https://projectsapp17.firebaseio.com/projects.json", {
-          method: "POST",
-          body: JSON.stringify(projectData)
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        alert("Error occured!!! Try again...");
-        dispatch(uiStopLoading());
+        return fetch(
+          "https://projectsapp17.firebaseio.com/projects.json?auth=" +
+            authToken,
+          {
+            method: "POST",
+            body: JSON.stringify(projectData)
+          }
+        );
       })
       .then(res => res.json())
       .then(parsedRes => {
         console.log(parsedRes);
+        dispatch(uiStopLoading());
+      })
+      .catch(err => {
+        console.log(err);
+        alert("Error occured!!! Try again...");
         dispatch(uiStopLoading());
       });
   };
@@ -44,10 +61,14 @@ export const addProject = (projectName, location, image) => {
 
 export const getProjects = () => {
   return dispatch => {
-    fetch("https://projectsapp17.firebaseio.com/projects.json")
-      .catch(err => {
-        console.log(err);
-        alert("Couldn't get data from the server.");
+    dispatch(authGetToken())
+      .then(token => {
+        return fetch(
+          "https://projectsapp17.firebaseio.com/projects.json?auth=" + token
+        );
+      })
+      .catch(() => {
+        alert("No valid Token exists!");
       })
       .then(res => res.json())
       .then(parsedRes => {
@@ -63,6 +84,10 @@ export const getProjects = () => {
         }
 
         dispatch(setProjects(projects));
+      })
+      .catch(err => {
+        console.log(err);
+        alert("Couldn't get data from the server.");
       });
   };
 };
@@ -75,17 +100,29 @@ export const setProjects = projects => {
 
 export const deleteProject = key => {
   return dispatch => {
-    dispatch(removeProjects(key));
-    fetch("https://projectsapp17.firebaseio.com/projects/" + key + ".json", {
-      method: "DELETE"
-    })
-      .catch(err => {
-        console.log(err);
-        alert("Couldn't delete the Project from server.");
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid Token exists!");
+      })
+      .then(token => {
+        dispatch(removeProjects(key));
+        return fetch(
+          "https://projectsapp17.firebaseio.com/projects/" +
+            key +
+            ".json?auth=" +
+            token,
+          {
+            method: "DELETE"
+          }
+        );
       })
       .then(res => res.json())
       .then(parsedRes => {
         console.log("Deleted!");
+      })
+      .catch(err => {
+        console.log(err);
+        alert("Couldn't delete the Project from server.");
       });
   };
 };

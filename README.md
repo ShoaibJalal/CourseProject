@@ -1,4 +1,4 @@
-# Project app to create location based projects having Project photo to represent.
+# Project app to create location based projects having Project Image to represent.
 React Native App
 
 0. This app is created from expo init my-app

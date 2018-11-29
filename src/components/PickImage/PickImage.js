@@ -7,6 +7,12 @@ class PickImage extends Component {
     pickedImage: null
   };
 
+  reset = () => {
+    this.setState({
+      pickedImage: null
+    });
+  };
+
   pickImageHandler = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,

@@ -19,38 +19,46 @@ import PickLocation from "../../components/PickLocation/PickLocation";
 import validate from "../../utility/validation";
 
 class ShareProjectScreen extends Component {
-  state = {
-    controls: {
-      projectName: {
-        value: "",
-        valid: false,
-        touched: false,
-        validationRules: {
-          notEmpty: true
-        }
-      },
-      location: {
-        value: null,
-        valid: false
-      },
-      image: {
-        value: null,
-        valid: false
-      }
-    }
-  };
   static navigationOptions = {
     title: "Share Project"
   };
 
+  componentWillMount() {
+    this.reset();
+  }
+
+  reset = () => {
+    this.setState({
+      controls: {
+        projectName: {
+          value: "",
+          valid: false,
+          touched: false,
+          validationRules: {
+            notEmpty: true
+          }
+        },
+        location: {
+          value: null,
+          valid: false
+        },
+        image: {
+          value: null,
+          valid: false
+        }
+      }
+    });
+  };
+
   projectAddedHandler = () => {
-    {
-      this.props.onAddProject(
-        this.state.controls.projectName.value,
-        this.state.controls.location.value,
-        this.state.controls.image.value
-      );
-    }
+    this.props.onAddProject(
+      this.state.controls.projectName.value,
+      this.state.controls.location.value,
+      this.state.controls.image.value
+    );
+    this.reset();
+    this.imagePicker.reset();
+    this.locationPicker.reset();
   };
   projectNameChangedHandler = event => {
     this.setState(prevState => {
@@ -119,9 +127,15 @@ class ShareProjectScreen extends Component {
           <MainText>
             <TextHeading>Share a project</TextHeading>
           </MainText>
-          <PickImage onImagePicked={this.ImagePickedHandler} />
+          <PickImage
+            onImagePicked={this.ImagePickedHandler}
+            ref={ref => (this.imagePicker = ref)}
+          />
 
-          <PickLocation onLocationPick={this.locationPickedHandler} />
+          <PickLocation
+            onLocationPick={this.locationPickedHandler}
+            ref={ref => (this.locationPicker = ref)}
+          />
           <ProjectInput
             projectData={this.state.controls.projectName}
             onChangeText={this.projectNameChangedHandler}

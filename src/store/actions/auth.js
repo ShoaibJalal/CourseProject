@@ -33,7 +33,13 @@ export const tryAuth = (authData, authMode) => {
         alert("Authentication failed!, Please try again....");
         dispatch(uiStopLoading());
       })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error();
+        }
+      })
       .then(parsedRes => {
         dispatch(uiStopLoading());
         if (!parsedRes.idToken) {
@@ -121,7 +127,13 @@ export const authGetToken = () => {
               }
             );
           })
-          .then(res => res.json())
+          .then(res => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw new Error();
+            }
+          })
           .then(parsedRes => {
             if (parsedRes.id_token) {
               console.log("Refreshed token exists.");

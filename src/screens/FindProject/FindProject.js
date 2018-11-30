@@ -8,6 +8,7 @@ import {
   Animated
 } from "react-native";
 import { connect } from "react-redux";
+import { NavigationEvents } from "react-navigation";
 import ProjectList from "../../components/ProjectList/ProjectList";
 import { getProjects } from "../../store/actions/index";
 
@@ -28,9 +29,9 @@ class FindProjectScreen extends Component {
     )
   });
 
-  componentDidMount() {
+  /* componentDidMount() {
     this.props.onLoadProjects();
-  }
+  } */
 
   itemSelectedHandler = project => {
     console.log(project);
@@ -96,6 +97,7 @@ class FindProjectScreen extends Component {
     }
     return (
       <View style={this.state.projectsLoaded ? null : styles.buttonContainer}>
+        <NavigationEvents onDidFocus={payload => this.props.onLoadProjects()} />
         {content}
       </View>
     );

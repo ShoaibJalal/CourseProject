@@ -1,5 +1,7 @@
 export const SET_PROJECTS = "SET_PROJECTS";
 export const REMOVE_PROJECTS = "REMOVE_PROJECTS";
+export const PROJECT_ADDED = "PROJECT_ADDED";
+export const START_ADD_PROJECT = "START_ADD_PROJECT";
 
 export const TRY_AUTH = "TRY_AUTH";
 

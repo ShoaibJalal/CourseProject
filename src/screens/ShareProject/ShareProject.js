@@ -17,6 +17,7 @@ import ProjectInput from "../../components/ProjectInput/ProjectInput";
 import PickImage from "../../components/PickImage/PickImage";
 import PickLocation from "../../components/PickLocation/PickLocation";
 import validate from "../../utility/validation";
+import { startAddProject } from "../../store/actions/index";
 
 class ShareProjectScreen extends Component {
   static navigationOptions = {
@@ -25,6 +26,13 @@ class ShareProjectScreen extends Component {
 
   componentWillMount() {
     this.reset();
+  }
+
+  componentDidUpdate() {
+    if (this.props.projectAdded) {
+      this.props.navigation.navigate("FindProject");
+      this.props.onStartAddProject();
+    }
   }
 
   reset = () => {
@@ -159,14 +167,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    isLoading: state.ui.isLoading
+    isLoading: state.ui.isLoading,
+    projectAdded: state.projects.projectAdded
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onAddProject: (projectName, location, image) =>
-      dispatch(addProject(projectName, location, image))
+      dispatch(addProject(projectName, location, image)),
+    onStartAddProject: () => dispatch(startAddProject())
   };
 };
 

@@ -1,5 +1,16 @@
-import { REMOVE_PROJECTS, SET_PROJECTS } from "./actionTypes";
+import {
+  REMOVE_PROJECTS,
+  SET_PROJECTS,
+  PROJECT_ADDED,
+  START_ADD_PROJECT
+} from "./actionTypes";
 import { uiStartLoading, uiStopLoading, authGetToken } from "./index";
+
+export const startAddProject = () => {
+  return {
+    type: START_ADD_PROJECT
+  };
+};
 
 export const addProject = (projectName, location, image) => {
   return dispatch => {
@@ -29,7 +40,13 @@ export const addProject = (projectName, location, image) => {
         alert("Error occured!!! Try again...");
         dispatch(uiStopLoading());
       })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error();
+        }
+      })
       .then(parsedRes => {
         const projectData = {
           name: projectName,
@@ -46,16 +63,29 @@ export const addProject = (projectName, location, image) => {
           }
         );
       })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error();
+        }
+      })
       .then(parsedRes => {
         console.log(parsedRes);
         dispatch(uiStopLoading());
+        dispatch(projectAdded());
       })
       .catch(err => {
         console.log(err);
         alert("Error occured!!! Try again...");
         dispatch(uiStopLoading());
       });
+  };
+};
+
+export const projectAdded = () => {
+  return {
+    type: PROJECT_ADDED
   };
 };
 
@@ -70,7 +100,13 @@ export const getProjects = () => {
       .catch(() => {
         alert("No valid Token exists!");
       })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error();
+        }
+      })
       .then(parsedRes => {
         const projects = [];
         for (let key in parsedRes) {
@@ -116,7 +152,13 @@ export const deleteProject = key => {
           }
         );
       })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error();
+        }
+      })
       .then(parsedRes => {
         console.log("Deleted!");
       })

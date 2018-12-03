@@ -51,7 +51,8 @@ export const addProject = (projectName, location, image) => {
         const projectData = {
           name: projectName,
           location: location,
-          image: parsedRes.imageUrl
+          image: parsedRes.imageUrl,
+          imagePath: parsedRes.imagePath
         };
 
         return fetch(

@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import { deleteProject } from "../../store/actions/index";
 import { MapView } from "expo";
+import { Rating } from "react-native-elements";
 
 class ProjectDetailScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -41,6 +42,17 @@ class ProjectDetailScreen extends React.Component {
             <Text style={styles.projectName}>
               {this.props.navigation.getParam("projectName")}
             </Text>
+
+            <Rating
+              type="custom"
+              readonly
+              showRating
+              fractions={1}
+              imageSize={20}
+              startingValue={params.starCount}
+              style={styles.rating}
+              ratingBackgroundColor="white"
+            />
           </View>
         </View>
         <View style={styles.subConatiner}>
@@ -81,6 +93,9 @@ const styles = StyleSheet.create({
   },
   subConatiner: {
     flex: 1
+  },
+  rating: {
+    margin: 10
   },
   projectImage: {
     width: "100%",

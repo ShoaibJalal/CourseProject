@@ -23,6 +23,7 @@ class SettingsScreen extends React.Component {
       inactiveTintColor: "gray"
     }
   };
+
   render() {
     return (
       <View style={styles.container}>

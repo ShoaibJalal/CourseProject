@@ -29,13 +29,7 @@ class FindProjectScreen extends Component {
     )
   });
 
-  /* componentDidMount() {
-    this.props.onLoadProjects();
-  } */
-
   itemSelectedHandler = project => {
-    console.log(project);
-
     this.props.navigation.push("ProjectDetail", project);
   };
 

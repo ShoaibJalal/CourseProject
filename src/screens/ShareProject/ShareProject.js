@@ -17,6 +17,7 @@ import ProjectInput from "../../components/ProjectInput/ProjectInput";
 import PickImage from "../../components/PickImage/PickImage";
 import PickLocation from "../../components/PickLocation/PickLocation";
 import validate from "../../utility/validation";
+import { Rating } from "react-native-elements";
 import { startAddProject } from "../../store/actions/index";
 
 class ShareProjectScreen extends Component {
@@ -54,7 +55,8 @@ class ShareProjectScreen extends Component {
           value: null,
           valid: false
         }
-      }
+      },
+      starCount: 3
     });
   };
 
@@ -62,7 +64,8 @@ class ShareProjectScreen extends Component {
     this.props.onAddProject(
       this.state.controls.projectName.value,
       this.state.controls.location.value,
-      this.state.controls.image.value
+      this.state.controls.image.value,
+      this.state.starCount
     );
     this.reset();
     this.imagePicker.reset();
@@ -98,6 +101,14 @@ class ShareProjectScreen extends Component {
         }
       };
     });
+  };
+
+  ratingCompleted = startingValue => {
+    console.log("Rating is: " + startingValue);
+    this.setState({ starCount: startingValue });
+  };
+  ratingStarted = startingValue => {
+    this.setState({ starCount: startingValue });
   };
 
   locationPickedHandler = location => {
@@ -148,6 +159,16 @@ class ShareProjectScreen extends Component {
             projectData={this.state.controls.projectName}
             onChangeText={this.projectNameChangedHandler}
           />
+          <Rating
+            showRating
+            type="star"
+            fractions={1}
+            startingValue={this.state.starCount}
+            imageSize={40}
+            onFinishRating={this.ratingCompleted}
+            onStartRating={this.ratingStarted}
+            style={{ paddingVertical: 10 }}
+          />
           <View style={styles.button}>{submitButton}</View>
         </KeyboardAvoidingView>
       </ScrollView>
@@ -174,8 +195,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddProject: (projectName, location, image) =>
-      dispatch(addProject(projectName, location, image)),
+    onAddProject: (projectName, location, image, starCount) =>
+      dispatch(addProject(projectName, location, image, starCount)),
     onStartAddProject: () => dispatch(startAddProject())
   };
 };

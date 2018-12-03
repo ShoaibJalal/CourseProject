@@ -43,31 +43,7 @@ const MainTabs = createBottomTabNavigator(
     MainStack: ProjectStack,
     Settings: SettingsScreen
   }
-  /* {
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if (routeName === "FindProject") {
-          iconName = `ios-search${focused ? "" : "-outline"}`;
-        } else if (routeName === "ShareProject") {
-          iconName = `ios-share${focused ? "" : "-outline"}`;
-        }
-
-        return (
-          <Ionicons
-            name={iconName}
-            size={horizontal ? 20 : 25}
-            color={tintColor}
-          />
-        );
-      }
-    }), 
-    tabBarOptions: {
-      activeTintColor: "tomato",
-      inactiveTintColor: "gray"
-    } 
-  } */
+  
 );
 
 const AppNavigator = createSwitchNavigator({

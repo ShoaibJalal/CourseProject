@@ -12,7 +12,7 @@ export const startAddProject = () => {
   };
 };
 
-export const addProject = (projectName, location, image) => {
+export const addProject = (projectName, location, image, starCount) => {
   return dispatch => {
     let authToken;
     dispatch(uiStartLoading());
@@ -48,9 +48,12 @@ export const addProject = (projectName, location, image) => {
         }
       })
       .then(parsedRes => {
+        console.log(starCount);
+
         const projectData = {
           name: projectName,
           location: location,
+          starCount: starCount,
           image: parsedRes.imageUrl,
           imagePath: parsedRes.imagePath
         };

@@ -14,6 +14,7 @@ const projectList = props => {
           projectName={info.item.name}
           projectImage={info.item.image}
           location={info.item.location}
+          starCount={info.item.starCount}
           onItemPressed={props.onItemSelected}
         />
       )}

@@ -146,15 +146,6 @@ class ShareProjectScreen extends Component {
           <MainText>
             <TextHeading>Share a project</TextHeading>
           </MainText>
-          <PickImage
-            onImagePicked={this.ImagePickedHandler}
-            ref={ref => (this.imagePicker = ref)}
-          />
-
-          <PickLocation
-            onLocationPick={this.locationPickedHandler}
-            ref={ref => (this.locationPicker = ref)}
-          />
           <ProjectInput
             projectData={this.state.controls.projectName}
             onChangeText={this.projectNameChangedHandler}
@@ -169,6 +160,17 @@ class ShareProjectScreen extends Component {
             onStartRating={this.ratingStarted}
             style={{ paddingVertical: 10 }}
           />
+
+          <PickImage
+            onImagePicked={this.ImagePickedHandler}
+            ref={ref => (this.imagePicker = ref)}
+          />
+
+          <PickLocation
+            onLocationPick={this.locationPickedHandler}
+            ref={ref => (this.locationPicker = ref)}
+          />
+
           <View style={styles.button}>{submitButton}</View>
         </KeyboardAvoidingView>
       </ScrollView>
@@ -178,7 +180,8 @@ class ShareProjectScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "white"
   },
 
   button: {

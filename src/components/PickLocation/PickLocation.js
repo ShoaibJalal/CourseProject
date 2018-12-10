@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { View, Button, StyleSheet, Dimensions } from "react-native";
 import { MapView, Location, Permissions } from "expo";
 
+let location;
+
 class PickLocation extends Component {
   componentWillMount() {
     this.reset();
@@ -47,7 +49,7 @@ class PickLocation extends Component {
     if (status !== "granted") {
       alert("No permission to access location");
     } else {
-      let location = await Location.getCurrentPositionAsync({});
+      location = await Location.getCurrentPositionAsync({});
 
       this.setState(prevState => {
         return {

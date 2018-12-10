@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import DefaultInput from "../../components/UI/DefaultInput/DefaultInput";
 import TextHeading from "../../components/UI/TextHeading/TextHeading";
 import MainText from "../../components/UI/MainText/MainText";
-import backgroundImage from "../../assets/background.jpg";
+import backgroundImage from "../../assets/Background.jpg";
 import validate from "../../utility/validation";
 import { tryAuth, authAutoSignIn } from "../../store/actions/index";
 class AuthScreen extends Component {

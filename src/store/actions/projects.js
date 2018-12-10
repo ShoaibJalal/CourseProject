@@ -48,8 +48,6 @@ export const addProject = (projectName, location, image, starCount) => {
         }
       })
       .then(parsedRes => {
-        console.log(starCount);
-
         const projectData = {
           name: projectName,
           location: location,

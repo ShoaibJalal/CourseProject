@@ -28,11 +28,11 @@ class FindProjectScreen extends Component {
       />
     )
   });
-
+  // navigates to project detail screen
   itemSelectedHandler = project => {
     this.props.navigation.push("ProjectDetail", project);
   };
-
+  // Performin animation to load projects
   projectsLoadedHandler = () => {
     Animated.timing(this.state.projectsAnim, {
       toValue: 1,

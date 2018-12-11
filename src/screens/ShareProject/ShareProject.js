@@ -28,7 +28,7 @@ class ShareProjectScreen extends Component {
   componentWillMount() {
     this.reset();
   }
-
+  // Navigates to find project screen if components update
   componentDidUpdate() {
     if (this.props.projectAdded) {
       this.props.navigation.navigate("FindProject");
@@ -36,6 +36,7 @@ class ShareProjectScreen extends Component {
     }
   }
 
+  //resting the all input values
   reset = () => {
     this.setState({
       controls: {
@@ -60,6 +61,7 @@ class ShareProjectScreen extends Component {
     });
   };
 
+  //Dispatche project added handler
   projectAddedHandler = () => {
     this.props.onAddProject(
       this.state.controls.projectName.value,
@@ -71,6 +73,8 @@ class ShareProjectScreen extends Component {
     this.imagePicker.reset();
     this.locationPicker.reset();
   };
+
+  //changes the value of project input field
   projectNameChangedHandler = event => {
     this.setState(prevState => {
       return {
@@ -89,6 +93,7 @@ class ShareProjectScreen extends Component {
       };
     });
   };
+  // to pick image from gallery
   ImagePickedHandler = image => {
     this.setState(prevState => {
       return {
@@ -110,7 +115,7 @@ class ShareProjectScreen extends Component {
   ratingStarted = startingValue => {
     this.setState({ starCount: startingValue });
   };
-
+  //picking up location
   locationPickedHandler = location => {
     this.setState(prevState => {
       return {

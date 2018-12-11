@@ -6,12 +6,14 @@ import {
 } from "./actionTypes";
 import { uiStartLoading, uiStopLoading, authGetToken } from "./index";
 
+//Starting Add process
 export const startAddProject = () => {
   return {
     type: START_ADD_PROJECT
   };
 };
 
+// Posting data to backend
 export const addProject = (projectName, location, image, starCount) => {
   return dispatch => {
     let authToken;
@@ -84,13 +86,14 @@ export const addProject = (projectName, location, image, starCount) => {
       });
   };
 };
-
+//WHen project is successfully added
 export const projectAdded = () => {
   return {
     type: PROJECT_ADDED
   };
 };
 
+//TO read data from Backend
 export const getProjects = () => {
   return dispatch => {
     dispatch(authGetToken())
@@ -129,6 +132,8 @@ export const getProjects = () => {
       });
   };
 };
+
+//Storing projects in reducer state
 export const setProjects = projects => {
   return {
     type: SET_PROJECTS,
@@ -136,6 +141,7 @@ export const setProjects = projects => {
   };
 };
 
+// deleting a project from view and backend
 export const deleteProject = key => {
   return dispatch => {
     dispatch(authGetToken())
@@ -171,6 +177,7 @@ export const deleteProject = key => {
   };
 };
 
+// Reomving project from the view
 export const removeProjects = key => {
   return {
     type: REMOVE_PROJECTS,

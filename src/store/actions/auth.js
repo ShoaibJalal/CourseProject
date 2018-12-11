@@ -3,8 +3,10 @@ import { AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN } from "./actionTypes";
 import { uiStartLoading, uiStopLoading } from "./index";
 import NavigationService from "../../.././NavigationService";
 
+//firebase API_key
 const API_KEY = "AIzaSyA03x2rz4VnCbvbWlBEzy4MrOBfxPmiuto";
 
+// Trying authentication and passing token to store it.
 export const tryAuth = (authData, authMode) => {
   return dispatch => {
     dispatch(uiStartLoading());
@@ -47,13 +49,14 @@ export const tryAuth = (authData, authMode) => {
               parsedRes.refreshToken
             )
           );
-
+          //Using navigation service to navigate to main screen.
           NavigationService.navigate("Main");
         }
       });
   };
 };
 
+//Checking if token is fresh and storing it in AsyncStorage
 export const authStoreToken = (token, expiresIn, refreshToken) => {
   return dispatch => {
     const now = new Date();
@@ -66,6 +69,7 @@ export const authStoreToken = (token, expiresIn, refreshToken) => {
   };
 };
 
+//storing token in state
 export const authSetToken = (token, expiryDate) => {
   return {
     type: AUTH_SET_TOKEN,
@@ -74,6 +78,7 @@ export const authSetToken = (token, expiryDate) => {
   };
 };
 
+//Getting token from auth state
 export const authGetToken = () => {
   return (dispatch, getState) => {
     const promise = new Promise((resolve, reject) => {
@@ -148,6 +153,7 @@ export const authGetToken = () => {
   };
 };
 
+// Making sure to navigate if token exists
 export const authAutoSignIn = () => {
   return dispatch => {
     dispatch(authGetToken())
@@ -158,6 +164,7 @@ export const authAutoSignIn = () => {
   };
 };
 
+//Cleaning up the AsyncStorage
 export const authClearStorage = () => {
   return dispatch => {
     AsyncStorage.removeItem("projects:auth:token");
@@ -166,6 +173,7 @@ export const authClearStorage = () => {
   };
 };
 
+// Dispatchin action when logging out and Cleaning up the token
 export const authLogout = () => {
   return dispatch => {
     dispatch(authClearStorage()).then(() => {

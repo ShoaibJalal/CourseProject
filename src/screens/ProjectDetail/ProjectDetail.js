@@ -19,6 +19,7 @@ class ProjectDetailScreen extends React.Component {
     headerTitle: navigation.getParam("projectName")
   });
 
+  // to delte a project
   projectDeletedHandler = () => {
     this.props.onDeleteProject(this.props.navigation.getParam("projectKey"));
     this.props.navigation.pop();

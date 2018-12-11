@@ -12,7 +12,7 @@ class PickImage extends Component {
       pickedImage: null
     });
   };
-
+  //picking image from gallery
   pickImageHandler = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,

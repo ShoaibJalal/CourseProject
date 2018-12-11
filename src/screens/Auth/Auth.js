@@ -50,7 +50,7 @@ class AuthScreen extends Component {
   componentDidMount() {
     this.props.onAutoSignIn();
   }
-
+  //Passing data to action creator
   authHandler = () => {
     const authData = {
       email: this.state.controls.email.value,
@@ -58,7 +58,7 @@ class AuthScreen extends Component {
     };
     this.props.onTryAuth(authData, this.state.authMode);
   };
-
+  //Changin mode to Signup or Sigin
   switchAuthModeHandler = () => {
     this.setState(prevState => {
       return {
@@ -66,7 +66,7 @@ class AuthScreen extends Component {
       };
     });
   };
-
+  // updating values of inputs
   updateInputState = (key, value) => {
     let connectedValue = {};
     if (this.state.controls[key].validationRules.equalTo) {
